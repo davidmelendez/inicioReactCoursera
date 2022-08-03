@@ -1,9 +1,9 @@
 import { Navbar, NavbarBrand } from 'reactstrap';
-import Menu from './MenuComponent';
+import MenuCF from './MenuCFComponent';
 import { DISHES } from '../shared/dishes';
 import { render } from 'react-dom';
 import React, { Component } from 'react';
-import DishDetail from './DishdetailComponent ';
+import DishDetailCF from './DishDetailCFComponent';
 
 
 
@@ -15,7 +15,7 @@ class Main extends Component {
         super(props);
         this.state = {
             dishes: DISHES,
-            selectedDish: null
+            selectedDish: 0
         }
     }
 
@@ -32,10 +32,10 @@ class Main extends Component {
                         <NavbarBrand href="/">Opction 2</NavbarBrand>
                     </div>
                 </Navbar>
-                <Menu dishes={this.state.dishes} 
+                <MenuCF dishes={this.state.dishes} 
                     onClick={(dishId) => this.onDishSelect(dishId)} />
                     
-                <DishDetail dish={this.state.dishes.filter((dish) => dish.id === this.state.selectedDish)[0]} />
+                <DishDetailCF dish={this.state.dishes.filter((dish) => dish.id === this.state.selectedDish)[0]} />
             </div>
         );
 
