@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+
 import Main from './components/MainComponent';
 import './App.css';
 import React, { Component } from 'react';

@@ -4,6 +4,8 @@ import { DISHES } from '../shared/dishes';
 import { render } from 'react-dom';
 import React, { Component } from 'react';
 import DishDetailCF from './DishDetailCFComponent';
+import Header from './HeaderComponent';
+import Footer from './FooterComponent';
 
 
 
@@ -26,16 +28,13 @@ class Main extends Component {
     render() {
         return (
             <div>
-                <Navbar dark color="primary">
-                    <div className="container">
-                        <NavbarBrand href="/">Opction 1</NavbarBrand>
-                        <NavbarBrand href="/">Opction 2</NavbarBrand>
-                    </div>
-                </Navbar>
+                <Header />
                 <MenuCF dishes={this.state.dishes} 
                     onClick={(dishId) => this.onDishSelect(dishId)} />
                     
                 <DishDetailCF dish={this.state.dishes.filter((dish) => dish.id === this.state.selectedDish)[0]} />
+            
+            <Footer />
             </div>
         );
 
