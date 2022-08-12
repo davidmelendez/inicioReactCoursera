@@ -6,7 +6,8 @@ import React, { Component } from 'react';
 import DishDetailCF from './DishDetailCFComponent';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
-
+import Home from './HomeComponent';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 
 {/*Componnente principal o contenerdor, no responsable de la vista, solo de
@@ -16,25 +17,34 @@ class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dishes: DISHES,
-            selectedDish: 0
+            dishes: DISHES/*,
+            selectedDish: 0*/
         }
     }
+
+
 
     onDishSelect(dish) {
         this.setState({ selectedDish: dish })
     }
 
     render() {
+
+        const HomePage = () => {
+            return (
+                <Home></Home>
+            );
+        }
+
         return (
             <div>
                 <Header />
-                <MenuCF dishes={this.state.dishes} 
-                    onClick={(dishId) => this.onDishSelect(dishId)} />
-                    
-                <DishDetailCF dish={this.state.dishes.filter((dish) => dish.id === this.state.selectedDish)[0]} />
-            
-            <Footer />
+                <Switch>
+                    <Route path='/home' component={HomePage}></Route>
+                    <Route exact path='/menu' component={() => <MenuCF dishes={this.state.dishes} />}></Route>
+                    <Redirect to='/home' />
+                </Switch>
+                <Footer />
             </div>
         );
 
