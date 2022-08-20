@@ -16,6 +16,9 @@ import {PROMOTIONS} from '../shared/promotions';
 import {LEADERS} from '../shared/leaders';
 import {DISHES2} from '../shared/dishes2';
 
+//ejercicio final segunda semana
+import About from './AboutComponent';
+
 
 {/*Componnente principal o contenerdor, no responsable de la vista, solo de
 la data*/}
@@ -35,9 +38,8 @@ class Main extends Component {
 
     onDishSelect(dish) {
         this.setState({ selectedDish: dish })
-    }
+    } 
 
-    
     render() {
 
         const HomePage = () => {
@@ -50,23 +52,19 @@ class Main extends Component {
             );
         }
 
-        const DishWithId = ({match}) => {
+        const AboutPage = () => {
             return(
-                <DishDetailCF dish={this.state.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]} 
-                  comments={this.state.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))} />
+                <About leaders={this.state.leaders}></About>
             );
-          };
-    
-
+        }
         return (
             <div>
                 <Header />
                 <Switch>
                     <Route path='/home' component={HomePage}></Route>
                     <Route exact path='/menu' component={() => <MenuCF dishes={this.state.dishes} />}></Route>
-                    <Route path='/menu/:dishId' component={DishWithId} />
                     <Route exact path='/contactus' component={Contact} ></Route>
-                    
+                    <Route exact path='/aboutus' component={AboutPage}></Route>
                     <Redirect to='/home' />
                 </Switch>
                 <Footer />
