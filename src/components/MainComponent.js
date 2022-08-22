@@ -42,6 +42,9 @@ class Main extends Component {
         this.setState({ selectedDish: dish })
     }
 
+
+    
+
     render() {
 
         const HomePage = () => {
@@ -54,12 +57,12 @@ class Main extends Component {
             );
         }
 
-        /* const DishWithId = ({match}) => {
-             return(
-                 <DishDetailCF dish={this.props.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]} 
-                   comments={this.props.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))} />
-             );
-           };*/
+        const DishWithId = ({match}) => {
+            return(
+                <DishDetailCF dish={this.props.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]} 
+                  comments={this.props.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))} />
+            );
+          };
 
 
         const AboutPage = () => {
@@ -73,6 +76,7 @@ class Main extends Component {
                 <Switch>
                     <Route path='/home' component={HomePage}></Route>
                     <Route exact path='/menu' component={() => <MenuCF dishes={this.props.dishes} />}></Route>
+                    <Route path='/menu/:dishId' component={DishWithId} />
                     <Route exact path='/contactus' component={Contact} ></Route>
                     <Route exact path='/aboutus' component={AboutPage}></Route>
                     <Redirect to='/home' />
