@@ -8,6 +8,7 @@ import Footer from './FooterComponent';
 import Home from './HomeComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import Contact from './ContactComponent';
+import ContactRedux  from './ContactReduxComponent';
 import { connect } from 'react-redux';
 
 
@@ -78,6 +79,7 @@ class Main extends Component {
                     <Route exact path='/menu' component={() => <MenuCF dishes={this.props.dishes} />}></Route>
                     <Route path='/menu/:dishId' component={DishWithId} />
                     <Route exact path='/contactus' component={Contact} ></Route>
+                    <Route exact path='/contactusredux' component={ContactRedux}></Route>
                     <Route exact path='/aboutus' component={AboutPage}></Route>
                     <Redirect to='/home' />
                 </Switch>
