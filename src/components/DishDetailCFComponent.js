@@ -1,7 +1,7 @@
-import React,  { Component } from 'react';
+import React, { Component } from 'react';
 import {
     Card, CardImg, CardImgOverlay, CardText, CarBody,
-    CardTitle, CardBody, Breadcrumb, BreadcrumbItem , Modal, ModalHeader, ModalBody,
+    CardTitle, CardBody, Breadcrumb, BreadcrumbItem, Modal, ModalHeader, ModalBody,
     Button, Row, Col, Label,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
@@ -34,8 +34,8 @@ class CommentForm extends Component {
         const maxLength = (len) => (val) => !(val) || (val.length <= len);
         const minLength = (len) => (val) => val && (val.length >= len);
         const isNumber = (val) => !isNaN(Number(val));
-        const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);        
-        
+        const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
+
         return (
 
             <Modal ref={this.myRef} isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
@@ -45,7 +45,7 @@ class CommentForm extends Component {
                         <Row className="form-group">
                             <Label htmlFor="rating" md={12}>Rating</Label>
                             <Col md={12}>
-                                <Control.select model=".rating" id="rating"  name="rating" className="form-cotrol col-md-12">
+                                <Control.select model=".rating" id="rating" name="rating" className="form-cotrol col-md-12">
                                     <option>1</option>
                                     <option>2</option>
                                     <option>3</option>
@@ -59,16 +59,16 @@ class CommentForm extends Component {
                             <Label htmlFor="yourname" md={12}>Your Name</Label>
                             <Col md={12}>
                                 <Control.text model='.yourname' id='yourname' name='yourname' className='form-control'
-                                validators={{minLength: minLength(3), maxLength: maxLength(15)}}
+                                    validators={{ minLength: minLength(3), maxLength: maxLength(15) }}
                                 ></Control.text>
-                                <Errors 
-                                className='text-danger'
-                                model='.yourname'
-                                show='touched'
-                                messages={{
-                                    minLength: 'Must be greater than 3 characters',
-                                    maxLength: 'Must be 15 characters or less'
-                                }} />
+                                <Errors
+                                    className='text-danger'
+                                    model='.yourname'
+                                    show='touched'
+                                    messages={{
+                                        minLength: 'Must be greater than 3 characters',
+                                        maxLength: 'Must be 15 characters or less'
+                                    }} />
                             </Col>
                         </Row>
                         <Row className="form-group">
@@ -96,6 +96,8 @@ class CommentForm extends Component {
     handleSubmit(values) {
 
         alert('Current State is:' + JSON.stringify(values));
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+
         this.toggleModal();
         //  event.preventDefault();
 
@@ -104,7 +106,7 @@ class CommentForm extends Component {
 
     render() {
 
-       
+
         return (
 
             //boton
@@ -140,7 +142,7 @@ function RenderDish({ dish }) {
     );
 }
 
-function RenderComments({ comments }) {
+function RenderComments({ comments, addComment, dishId }) {
     return (
         <div className='col-12 col-md-5 m-1'>
             <h4>Comments</h4>
@@ -160,8 +162,8 @@ function RenderComments({ comments }) {
                 );
             })}
             <div className='col-12 col-md-5 m-1'>
-                <CommentForm />
-                </div>
+                <CommentForm dishId={dishId} addComment={addComment} />
+            </div>
 
         </div>
     );
@@ -173,26 +175,28 @@ const DishDetailCF = (props) => {
     return (
         <div className='container'>
             <div className="row">
-                    <Breadcrumb>
+                <Breadcrumb>
 
-                        <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
-                        <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
-                    </Breadcrumb>
-                    <div className="col-12">
-                        <h3>{props.dish.name}</h3>
-                        <hr />
-                    </div>                
+                    <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
+                    <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+                </Breadcrumb>
+                <div className="col-12">
+                    <h3>{props.dish.name}</h3>
+                    <hr />
                 </div>
+            </div>
             <div className='row'>
                 <div className='col-12 col-md-5 m-1'>
                     <RenderDish dish={props.dish} />
                 </div>
-                <RenderComments comments={props.comments} />
-                
+                <RenderComments comments={props.comments}
+                    addComment={props.addComment}
+                    dishId={props.dish.id} />
+
             </div>
         </div>
     );
-    
+
 
 }
 

@@ -12,10 +12,11 @@ import ContactRedux  from './ContactReduxComponent';
 import { connect } from 'react-redux';
 
 
-
-
 //ejercicio final segunda semana
 import About from './AboutComponent';
+
+//
+import { addComment } from '../redux/ActionCreators';
 
 
 //redux
@@ -27,6 +28,13 @@ const mapStateToProps = state => {
         leaders: state.leaders
     }
 }
+
+//incoporacion llamado de Action
+const mapDispatchToProps = dispatch => ({
+  
+    addComment: (dishId, rating, author, comment) => dispatch(addComment(dishId, rating, author, comment))
+  
+  });
 
 {/*Componnente principal o contenerdor, no responsable de la vista, solo de
 la data*/}
@@ -61,7 +69,8 @@ class Main extends Component {
         const DishWithId = ({match}) => {
             return(
                 <DishDetailCF dish={this.props.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]} 
-                  comments={this.props.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))} />
+                  comments={this.props.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))}
+                  addComment={this.props.addComment} />
             );
           };
 
@@ -89,4 +98,6 @@ class Main extends Component {
 
     }
 }
-export default withRouter(connect(mapStateToProps)(Main));
+
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
