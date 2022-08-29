@@ -13,6 +13,9 @@ class CommentForm extends Component {
 
     constructor(props) {
         super(props);
+
+        console.log('Se construye el Cooment Form, donde en los props deberia venir la definicion de la accion addcomments');
+        console.log(JSON.stringify(props));
         this.toggleModal = this.toggleModal.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
@@ -96,6 +99,7 @@ class CommentForm extends Component {
     handleSubmit(values) {
 
         alert('Current State is:' + JSON.stringify(values));
+        console.log('Envio o ejecucion de la accion addComment, que vienen en los props.: Envio de formulario para modificar el state');
         this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
 
         this.toggleModal();
@@ -162,6 +166,7 @@ function RenderComments({ comments, addComment, dishId }) {
                 );
             })}
             <div className='col-12 col-md-5 m-1'>
+                {console.log('Render CoomentFomr con el prop addComment')}
                 <CommentForm dishId={dishId} addComment={addComment} />
             </div>
 
@@ -189,6 +194,7 @@ const DishDetailCF = (props) => {
                 <div className='col-12 col-md-5 m-1'>
                     <RenderDish dish={props.dish} />
                 </div>
+                {console.log('RenderCooments con prop addcomment')}
                 <RenderComments comments={props.comments}
                     addComment={props.addComment}
                     dishId={props.dish.id} />

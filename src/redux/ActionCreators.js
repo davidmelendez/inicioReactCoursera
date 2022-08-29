@@ -1,6 +1,9 @@
+
+
 import * as ActionTypes from './ActionTypes';
 
 export const addComment = (dishId, rating, author, comment) => ({
+   
     type: ActionTypes.ADD_COMMENT,
     payload: {
         dishId: dishId,
@@ -9,3 +12,5 @@ export const addComment = (dishId, rating, author, comment) => ({
         comment: comment
     }
 });
+
+console.log('Constructor de acciones: redux>ActionCreators.js');

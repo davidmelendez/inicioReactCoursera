@@ -29,9 +29,12 @@ const mapStateToProps = state => {
     }
 }
 
+
+console.log('Crea la const mapDispatchToProps que despacha las acciones los props para ser utilizada en los hijo: MainComponent');
 //incoporacion llamado de Action
 const mapDispatchToProps = dispatch => ({
   
+    
     addComment: (dishId, rating, author, comment) => dispatch(addComment(dishId, rating, author, comment))
   
   });
@@ -99,5 +102,5 @@ class Main extends Component {
     }
 }
 
-
+console.log('El export de Main genera la coneccion de las acciones con las vistas para poderlas llamar: MainComponent');
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

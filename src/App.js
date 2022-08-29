@@ -15,6 +15,7 @@ class App extends Component {
   render() {
     return (
       <React.Fragment>
+        {console.log('Se encapsula el proveedor store, carga la configuracion realizada en el configureStore, El Store se epaqueta iniciando aqui y queda disponible para el Main donde lo conectamos: App.js')}
          <Provider store={store}>
         <BrowserRouter>
           <div className="App">
