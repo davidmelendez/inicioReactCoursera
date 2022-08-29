@@ -1,5 +1,5 @@
 
-
+import { DISHES2 } from '../shared/dishes2';
 import * as ActionTypes from './ActionTypes';
 
 export const addComment = (dishId, rating, author, comment) => ({
@@ -14,3 +14,28 @@ export const addComment = (dishId, rating, author, comment) => ({
 });
 
 console.log('Constructor de acciones: redux>ActionCreators.js');
+
+console.log('Construccion de acciones para Thunk');
+
+export const fetchDishes = () => (dispatch) => {
+
+    dispatch(dishesLoading(true));
+
+    setTimeout(() => {
+        dispatch(addDishes(DISHES2));
+    }, 2000);
+}
+
+export const dishesLoading = () => ({
+    type: ActionTypes.DISHES_LOADING
+});
+
+export const dishesFailed = (errmess) => ({
+    type: ActionTypes.DISHES_FAILED,
+    payload: errmess
+});
+
+export const addDishes = (dishes) => ({
+    type: ActionTypes.ADD_DISHES,
+    payload: dishes
+});
