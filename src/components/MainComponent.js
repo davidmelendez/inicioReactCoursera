@@ -11,15 +11,14 @@ import Contact from './ContactComponent';
 import ContactRedux from './ContactReduxComponent';
 import { connect } from 'react-redux';
 
+//control de formularios
+import { actions } from 'react-redux-form';
 
 //ejercicio final segunda semana
 import About from './AboutComponent';
 
 //
 import { addComment, fetchDishes } from '../redux/ActionCreators';
-
-
-
 
 
 //redux
@@ -39,7 +38,8 @@ const mapDispatchToProps = dispatch => ({
 
 
     addComment: (dishId, rating, author, comment) => dispatch(addComment(dishId, rating, author, comment)),
-    fetchDishes: () => { dispatch(fetchDishes()) }
+    fetchDishes: () => { dispatch(fetchDishes()) },
+    resetFeedbackForm: () => { dispatch(actions.reset('feedback'))}
 
 });
 
@@ -113,7 +113,7 @@ class Main extends Component {
                     <Route exact path='/menu' component={() => <MenuCF dishes={this.props.dishes} />}></Route>
                     <Route path='/menu/:dishId' component={DishWithId} />
                     <Route exact path='/contactus' component={Contact} ></Route>
-                    <Route exact path='/contactusredux' component={ContactRedux}></Route>
+                    <Route exact path='/contactusredux' component={() => <ContactRedux resetFeedbackForm={this.props.resetFeedbackForm} />} />
                     <Route exact path='/aboutus' component={AboutPage}></Route>
                     <Redirect to='/home' />
                 </Switch>
