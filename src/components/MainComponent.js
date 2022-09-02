@@ -18,7 +18,9 @@ import { actions } from 'react-redux-form';
 import About from './AboutComponent';
 
 //
-import { addComment, fetchDishes, fetchComments, fetchPromos } from '../redux/ActionCreators';
+
+import { postComment, fetchDishes, fetchComments, fetchPromos } from '../redux/ActionCreators';
+
 
 
 //redux
@@ -27,7 +29,8 @@ const mapStateToProps = state => {
         dishes: state.dishes,
         comments: state.comments,
         promotions: state.promotions,
-        leaders: state.leaders
+        leaders: state.leaders,
+        
     }
 }
 
@@ -37,11 +40,13 @@ console.log('Crea la const mapDispatchToProps que despacha las acciones los prop
 const mapDispatchToProps = dispatch => ({
 
 
-    addComment: (dishId, rating, author, comment) => dispatch(addComment(dishId, rating, author, comment)),
+   // addComment: (dishId, rating, author, comment) => dispatch(addComment(dishId, rating, author, comment)),
     fetchDishes: () => { dispatch(fetchDishes()) },
     resetFeedbackForm: () => { dispatch(actions.reset('feedback'))},
     fetchComments: () => dispatch(fetchComments()),
-    fetchPromos: () => dispatch(fetchPromos())
+    fetchPromos: () => dispatch(fetchPromos()),
+    postComment: (dishId, rating, author, comment) => dispatch(postComment(dishId, rating, author, comment))
+    
 
 });
 
@@ -67,6 +72,7 @@ class Main extends Component {
         this.props.fetchDishes();
         this.props.fetchComments();
         this.props.fetchPromos();
+        
     }
 
     onDishSelect(dish) {
@@ -77,6 +83,7 @@ class Main extends Component {
 
     
     render() {
+        
 
         const HomePage = () => {
             console.log('carga de props en main ' + this.props.dishes.isLoading)
@@ -103,7 +110,7 @@ class Main extends Component {
                     errMess={this.props.dishes.errMess}
                     comments={this.props.comments.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId, 10))}
                     commentsErrMess={this.props.comments.errMess}
-                    addComment={this.props.addComment} />
+                    postComment={this.props.postComment} />
             );
         };
 
