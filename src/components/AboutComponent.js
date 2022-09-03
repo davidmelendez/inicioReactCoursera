@@ -5,13 +5,16 @@ import RenderLeader from './RenderLeaderComponent';
 import { Loading } from './LoadingComponent';
 
 
+//animaicion
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
+
 function DrawLeaders({ leaders, isLoading, errMess }) {
     console.log('Pinta Leaders');
     console.log(isLoading);
     console.log(errMess);
     if (isLoading) {
-        return(
-        <Loading />
+        return (
+            <Loading />
         );
     }
     else if (errMess) {
@@ -20,15 +23,21 @@ function DrawLeaders({ leaders, isLoading, errMess }) {
         );
     } else {
         const leaderAux = leaders.map((leader) => {
-          
+
             return (
-                <div className='col-12 col-md-12 m-1' key={leader.id}>
-                 
-                    <RenderLeader leader={leader}></RenderLeader>
-                </div>
+                <Fade in>
+                    <div className='col-12 col-md-12 m-1' key={leader.id}>
+
+                        <RenderLeader leader={leader} key={leader.id}></RenderLeader>
+                    </div>
+                </Fade>
             );
         });
-        return(leaderAux);
+        return (
+            <Stagger in>
+                {leaderAux}
+            </Stagger>
+        );
     }
 }
 
@@ -119,8 +128,9 @@ function About(props) {
                     <h2>Corporate Leadership</h2>
                 </div>
                 <div className="col-12">
-
-                    <DrawLeaders leaders={props.leaders} isLoading={props.isLoading} errMess={props.errMess} />
+                    <Stagger in>
+                        <DrawLeaders leaders={props.leaders} isLoading={props.isLoading} errMess={props.errMess} />
+                    </Stagger>
                 </div>
             </div>
         </div>
