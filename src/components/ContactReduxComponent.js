@@ -23,7 +23,12 @@ class ContactRedux extends Component {
 
     handleSubmit(values) {
 
-        alert('Current State is:' + JSON.stringify(values));
+        console.log('Current State is:' + JSON.stringify(values));
+     
+        console.log(values.lastname);
+        //envio de data post
+        this.props.postFeedBack(values.firstname, values.lastname, values.telnum, values.email, values.agree, values.contactType,values.message);
+        alert(JSON.stringify(values));
         this.props.resetFeedbackForm();
         //  event.preventDefault();
 
