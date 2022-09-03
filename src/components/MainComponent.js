@@ -19,7 +19,8 @@ import About from './AboutComponent';
 
 //
 
-import { postComment, fetchDishes, fetchComments, fetchPromos } from '../redux/ActionCreators';
+import { postComment, fetchDishes, fetchComments, fetchPromos,
+fetchLeaders } from '../redux/ActionCreators';
 
 //animaciones
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
@@ -47,13 +48,10 @@ const mapDispatchToProps = dispatch => ({
     resetFeedbackForm: () => { dispatch(actions.reset('feedback')) },
     fetchComments: () => dispatch(fetchComments()),
     fetchPromos: () => dispatch(fetchPromos()),
-    postComment: (dishId, rating, author, comment) => dispatch(postComment(dishId, rating, author, comment))
-
+    postComment: (dishId, rating, author, comment) => dispatch(postComment(dishId, rating, author, comment)),
+    fetchLeaders: () => {dispatch(fetchLeaders())}
 
 });
-
-
-
 
 {/*Componnente principal o contenerdor, no responsable de la vista, solo de
 la data*/}
@@ -61,32 +59,21 @@ class Main extends Component {
 
     constructor(props) {
         super(props);
-
-
-
     }
-
-
-
 
     componentDidMount() {
         console.log('FetchDisches en DidMount porque?');
         this.props.fetchDishes();
         this.props.fetchComments();
         this.props.fetchPromos();
-
+        this.props.fetchLeaders();
     }
 
     onDishSelect(dish) {
         this.setState({ selectedDish: dish })
     }
 
-
-
-
     render() {
-
-
         const HomePage = () => {
             console.log('carga de props en main ' + this.props.dishes.isLoading)
             return (
@@ -98,8 +85,9 @@ class Main extends Component {
                     promotion={this.props.promotions.promotions.filter((promo) => promo.featured)[0]}
                     promoLoading={this.props.promotions.isLoading}
                     promoErrMess={this.props.promotions.errMess}
-                    leader={this.props.leaders.filter((leader) => leader.featured)[0]}
-
+                    leader={this.props.leaders.leaders.filter((leader) => leader.featured)[0]}
+                    leaderLoading={this.props.leaders.isLoading}
+                    leaderErrMess={this.props.leaders.errMess}
                 />
             );
         }
@@ -119,7 +107,9 @@ class Main extends Component {
 
         const AboutPage = () => {
             return (
-                <About leaders={this.props.leaders}></About>
+                <About leaders={this.props.leaders.leaders}
+                isLoading={this.props.leaders.isLoading}
+                errMess={this.props.leaders.errMess}></About>
             );
         }
         return (

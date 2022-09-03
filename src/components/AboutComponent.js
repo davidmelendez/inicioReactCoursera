@@ -1,19 +1,70 @@
 import React from 'react';
-import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
+import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import RenderLeader from './RenderLeaderComponent';
+import { Loading } from './LoadingComponent';
+
+
+function DrawLeaders({ leaders, isLoading, errMess }) {
+    console.log('Pinta Leaders');
+    console.log(isLoading);
+    console.log(errMess);
+    if (isLoading) {
+        return(
+        <Loading />
+        );
+    }
+    else if (errMess) {
+        return (
+            <h4>{errMess}</h4>
+        );
+    } else {
+        const leaderAux = leaders.map((leader) => {
+          
+            return (
+                <div className='col-12 col-md-12 m-1' key={leader.id}>
+                 
+                    <RenderLeader leader={leader}></RenderLeader>
+                </div>
+            );
+        });
+        return(leaderAux);
+    }
+}
 
 function About(props) {
 
-    const leaders = props.leaders.map((leader) => {
-        return (
-            <div className='col-12 col-md-12 m-1' key={leader.id}>
-            <RenderLeader leader={leader}></RenderLeader>
-            </div>
-        );
-    });
+    const leaders = () => {
+        if (props.isLoading) {
+            return (<div className="container">
+                <div className="row">
+                    <Loading />
+                </div>
+            </div>);
+        } else if (props.errMess) {
+            return (
+                <div className="container">
+                    <div className="row">
+                        <h4>{props.errMess}</h4>
+                    </div>
+                </div>
+            );
+        }
+        else if (props.leaders != null) {
+            props.leaders.map((leader) => {
+                return (
+                    <div className='col-12 col-md-12 m-1' key={leader.id}>
+                        <RenderLeader leader={leader}></RenderLeader>
+                    </div>
+                );
+            });
+        }
+    }
 
-    return(
+
+
+
+    return (
         <div className="container">
             <div className="row">
                 <Breadcrumb>
@@ -23,7 +74,7 @@ function About(props) {
                 <div className="col-12">
                     <h3>About Us</h3>
                     <hr />
-                </div>                
+                </div>
             </div>
             <div className="row row-content">
                 <div className="col-12 col-md-6">
@@ -55,8 +106,8 @@ function About(props) {
                                 <p className="mb-0">You better cut the pizza in four pieces because
                                     I'm not hungry enough to eat six.</p>
                                 <footer className="blockquote-footer">Yogi Berra,
-                                <cite title="Source Title">The Wit and Wisdom of Yogi Berra,
-                                    P. Pepe, Diversion Books, 2014</cite>
+                                    <cite title="Source Title">The Wit and Wisdom of Yogi Berra,
+                                        P. Pepe, Diversion Books, 2014</cite>
                                 </footer>
                             </blockquote>
                         </CardBody>
@@ -68,13 +119,12 @@ function About(props) {
                     <h2>Corporate Leadership</h2>
                 </div>
                 <div className="col-12">
-                   
-                        {leaders}
-                  
+
+                    <DrawLeaders leaders={props.leaders} isLoading={props.isLoading} errMess={props.errMess} />
                 </div>
             </div>
         </div>
     );
-}
 
+}
 export default About;    

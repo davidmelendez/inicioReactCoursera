@@ -1,8 +1,14 @@
-
-import { DISHES2 } from '../shared/dishes2';
 import * as ActionTypes from './ActionTypes';
 import { baseUrl } from '../shared/baseUrl';
+import { actionTypes } from 'react-redux-form';
 
+
+//log
+console.log('Constructor de acciones: redux>ActionCreators.js');
+console.log('Construccion de acciones para Thunk');
+
+//=====================================================================
+//actionscreator comments
 export const addComment = (comment) => ({
     type: ActionTypes.ADD_COMMENT,
     payload: comment
@@ -43,10 +49,40 @@ export const postComment = (dishId, rating, author, comment) => (dispatch) => {
     .catch(error =>  { console.log('post comments', error.message); alert('Your comment could not be posted\nError: ' + error.message); });
 };
 
-console.log('Constructor de acciones: redux>ActionCreators.js');
+export const fetchComments = () => (dispatch) => {    
+    return fetch(baseUrl + 'comments')
+    .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error('Error ' + response.status + ': ' + response.statusText);
+          error.response = response;
+          throw error;
+        }
+      },
+      error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+      })
+    .then(response => response.json())
+    .then(comments => dispatch(addComments(comments)))
+    .catch(error => dispatch(commentsFailed(error.message)));
+};
 
-console.log('Construccion de acciones para Thunk');
+export const commentsFailed = (errmess) => ({
+    type: ActionTypes.COMMENTS_FAILED,
+    payload: errmess
+});
 
+export const addComments = (comments) => ({
+    type: ActionTypes.ADD_COMMENTS,
+    payload: comments
+});
+
+//=====================================================================
+
+//=====================================================================
+//actionscreator dishes
 export const fetchDishes = () => (dispatch) => {
 
     dispatch(dishesLoading(true));
@@ -83,39 +119,12 @@ export const addDishes = (dishes) => ({
     payload: dishes
 });
 
-//
-export const fetchComments = () => (dispatch) => {    
-    return fetch(baseUrl + 'comments')
-    .then(response => {
-        if (response.ok) {
-          return response;
-        } else {
-          var error = new Error('Error ' + response.status + ': ' + response.statusText);
-          error.response = response;
-          throw error;
-        }
-      },
-      error => {
-            var errmess = new Error(error.message);
-            throw errmess;
-      })
-    .then(response => response.json())
-    .then(comments => dispatch(addComments(comments)))
-    .catch(error => dispatch(commentsFailed(error.message)));
-};
+//=====================================================================
 
-export const commentsFailed = (errmess) => ({
-    type: ActionTypes.COMMENTS_FAILED,
-    payload: errmess
-});
-
-export const addComments = (comments) => ({
-    type: ActionTypes.ADD_COMMENTS,
-    payload: comments
-});
-
+//=====================================================================
+//actioncreator promos
 export const fetchPromos = () => (dispatch) => {
-    
+    console.log('Ingresa a fetchPromos');
     dispatch(promosLoading());
 
     return fetch(baseUrl + 'promotions')
@@ -150,3 +159,44 @@ export const addPromos = (promos) => ({
     type: ActionTypes.ADD_PROMOS,
     payload: promos
 });
+//=====================================================================
+
+//=====================================================================
+//actions leaders
+export const leadersLoading = () => ({
+    type: ActionTypes.LEADERS_LOADING
+});
+
+export const leadersFailed = (errmess) => ({
+    type: ActionTypes.LEADERS_FAILED,
+    payload: errmess
+});
+
+export const leadersAdd = (leaders) => ({
+    type: ActionTypes.LEADERS_ADD,
+    payload: leaders
+});
+
+export const fetchLeaders = () => (dispatch) => {
+    console.log('Ingres a fetchLeaders');
+    dispatch(leadersLoading());
+
+    return fetch(baseUrl + 'leaders')
+    .then(response => {
+        if(response.ok){
+            return response;
+        }else{
+            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;
+        }
+    },
+    error => {
+        var errmess = new Error(error.message);
+        throw errmess;
+    })
+    .then(response => response.json())
+    .then(leaders => dispatch(leadersAdd(leaders)))
+    .catch(error => dispatch(leadersFailed(error.message)));
+}
+//=====================================================================
